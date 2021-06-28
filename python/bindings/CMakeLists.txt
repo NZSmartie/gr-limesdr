@@ -29,9 +29,16 @@ include(GrPybind)
 ########################################################################
 
 list(APPEND limesdr_python_files
+    sink_python.cc
+    source_python.cc
     python_bindings.cc)
 
-GR_PYBIND_MAKE_OOT(limesdr 
+if(ENABLE_RFE)
+    list(APPEND limesdr_python_files rfe_python.cc)
+    add_compile_definitions(ENABLE_RFE)
+endif()
+
+GR_PYBIND_MAKE_OOT(limesdr
    ../..
    gr::limesdr
    "${limesdr_python_files}")
